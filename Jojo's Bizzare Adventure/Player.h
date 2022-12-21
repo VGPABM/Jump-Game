@@ -12,6 +12,11 @@ private:
 
 	sf::Clock animationTimer;
 	
+	//PlayerVariable
+	int hp;
+	int hpMax;
+	int coinAmm;
+
 
 	//Animation
 	short animState;
@@ -30,6 +35,7 @@ private:
 	float drag;
 	float gravity;
 	float maxVelocityY;
+	bool fastfall;
 	float maxVelocityFallingY;
 
 	//Core
@@ -48,14 +54,25 @@ public:
 	bool checkAirborne();
 	const bool& getAnimSwitch();
 	const sf::FloatRect getGlobalBounds() const;
+	const sf::Vector2f& getPos() const;
+	const int& getHp() const;
+	const int& getHpMax() const;
+	const int& getCoinAmm()const;
 
 	//Modifier
+	void setPosition(const sf::Vector2f pos);
 	void setPosition(const float x, const float y);
 	void resetVelocityY();
+	void addCoin(const int coin);
+	void setHp(const int hp);
+	void addHp(const int value);
+	void loseHp(const int value);
 
 	//Function
 	void resetAnimationTimer();
 	void move(const float dir_x, const float dir_y);
+	void movey(const float dir_x, const float dir_y);
+	void autofall(const float dir_x, const float dir_y);
 	void updatePhysics();
 	void updateMovement();
 	void updateAnimation();

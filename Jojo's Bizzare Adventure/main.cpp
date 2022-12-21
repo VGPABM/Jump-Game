@@ -1,5 +1,5 @@
 #include"Game.h"
-
+#include "Player.h"
 
 int main() 
 {
@@ -8,8 +8,7 @@ int main()
 	Game main;
 	while (main.getwindow().isOpen())
 	{
-		main.update();
-		main.render();
+		main.run();
 	}
 
 	return 0;

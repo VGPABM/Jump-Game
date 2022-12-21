@@ -2,6 +2,9 @@
 #include<ctime>
 #include<iostream>
 #include<time.h>
+#include <map>
+#include <string>
+#include <sstream>
 
 
 
