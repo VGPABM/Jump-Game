@@ -8,9 +8,9 @@ void Game::initSound()
 
 	this->deathTheme.openFromFile("Resources/Sound/deaththeme2.ogg");
 
-	this->bufferOra.loadFromFile("Resources/Sound/Ora_Loud.ogg");
+	this->bufferOra.loadFromFile("Resources/Sound/Ora.ogg");
 	this->Ora.setBuffer(bufferOra);
-	this->Ora.setVolume(20.f);
+	this->Ora.setVolume(100.f);
 
 	this->bufferDamage.loadFromFile("Resources/Sound/minecraftoof.ogg");
 	this->Damage.setBuffer(bufferDamage);
