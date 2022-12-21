@@ -7,6 +7,7 @@
 #include "Health.h"
 #include "Coin.h"
 
+enum state { PLAY = 0,PAUSE,DEAD, START };
 
 class Game
 {
@@ -40,9 +41,15 @@ private:
 	sf::Text TitleTex;
 	sf::Text pointText;
 	sf::Text coinText;
+	sf::Text startmenuText;
+	sf::FloatRect startmenuTextRect;
+	sf::Text PauseText;
+	sf::FloatRect pausemenuTextRect;
+
 	sf::Text hpBar;
 
 	sf::Text gameOverText;
+	sf::FloatRect gameOverTextRect;
 
 	//Player GUI
 	sf::RectangleShape playerHpBar;
@@ -56,6 +63,7 @@ private:
 	//System
 	unsigned points;
 	unsigned coinAmm;
+	short gameState;
 
 	
 	//Resources
@@ -107,6 +115,9 @@ public:
 	void update();
 	void updateWorld();
 
+	void checkerController();
+	void startMode();
+	void pauseMode();
 	void gameOver();
 
 

@@ -4,12 +4,9 @@
 void Game::initSound()
 {
 	this->mainTheme.openFromFile("Resources/Sound/maintheme.ogg");
-	mainTheme.play();
-	mainTheme.setLoop(true);
-	mainTheme.setVolume(30.f);
+	mainTheme.setVolume(20.f);
 
 	this->deathTheme.openFromFile("Resources/Sound/deaththeme2.ogg");
-	deathTheme.setLoop(true);
 
 	this->bufferOra.loadFromFile("Resources/Sound/Ora_Loud.ogg");
 	this->Ora.setBuffer(bufferOra);
@@ -21,11 +18,11 @@ void Game::initSound()
 
 	this->bufferHealth.loadFromFile("Resources/Sound/healthsound.ogg");
 	this->HealthSound.setBuffer(bufferHealth);
-	this->HealthSound.setVolume(100.f);
+	this->HealthSound.setVolume(80.f);
 
 	this->bufferCoin.loadFromFile("Resources/Sound/coincollect.ogg");
 	this->CoinSound.setBuffer(bufferCoin);
-	this->CoinSound.setVolume(100.f);
+	this->CoinSound.setVolume(80.f);
 
 	this->bufferGameOver.loadFromFile("Resources/Sound/gameover2.ogg");
 	this->GameOverSound.setBuffer(bufferGameOver);
@@ -59,26 +56,49 @@ void Game::initGUI()
 
 	//Init Game Over Text
 	this->gameOverText.setFont(this->font);
-	this->gameOverText.setCharacterSize(100);
+	this->gameOverText.setCharacterSize(50);
 	this->gameOverText.setFillColor(sf::Color::Red);
-	this->gameOverText.setPosition(this->window.getSize().x /2.f - this->gameOverText.getGlobalBounds().width/2.f,
-		this->window.getSize().y / 2.f - this->gameOverText.getGlobalBounds().height / 2.f);
-	this->gameOverText.setString("Jotaro Died");
+	this->gameOverText.setString("Jotaro Died! press ENTER to Restart");
+	this->gameOverTextRect = gameOverText.getLocalBounds();
+	this->gameOverText.setPosition(gameOverTextRect.left + gameOverTextRect.width / 2.0f,
+		gameOverTextRect.top + gameOverTextRect.height / 2.0f);
+	
 
 	//Init Coin Text
 	this->coinText = this->pointText;
 	this->coinText.setPosition(pointText.getPosition().x + 300, 30.f);
+	this->coinText.setFillColor(sf::Color::White);
 
 	//Init Indicator healthbar
 	this->hpBar.setFont(this->point);
 	this->hpBar.setCharacterSize(25);
 	this->hpBar.setPosition(sf::Vector2f(this->window.getSize().x - 75, 30.f));
-	this->coinText.setFillColor(sf::Color::White);
+
+	//Init PauseMenutext
+	this->PauseText.setFont(this->font);
+	this->PauseText.setCharacterSize(50);
+	this->PauseText.setFillColor(sf::Color::Red);
+	this->PauseText.setString("PAUSE! Press Enter to start");
+	this->pausemenuTextRect = PauseText.getLocalBounds();
+	this->PauseText.setPosition(pausemenuTextRect.left + pausemenuTextRect.width / 2.0f,
+		pausemenuTextRect.top + pausemenuTextRect.height / 2.0f);
+	
+
+	//Init StartMenuText
+	this->startmenuText.setFont(this->font);
+	this->startmenuText.setCharacterSize(50);
+	this->startmenuText.setFillColor(sf::Color::Red);
+	this->startmenuText.setString("PRESS ENTER TO START GAME!");
+	this->startmenuTextRect = startmenuText.getLocalBounds();
+	this->startmenuText.setPosition(startmenuTextRect.left + startmenuTextRect.width / 2.0f,
+		startmenuTextRect.top + startmenuTextRect.height / 2.0f);
+
+	
 }
 
 void Game::initWindow()
 {
-	this->window.create(sf::VideoMode::getDesktopMode(), "Jojo's Bizzare Adventure", sf::Style::Close | sf::Style::Titlebar);
+	this->window.create(sf::VideoMode::getDesktopMode(), "Jojo's Bizzare Adventure", sf::Style::Fullscreen | sf::Style::Titlebar);
 	this->window.setFramerateLimit(165);
 }
 
@@ -126,16 +146,44 @@ void Game::initSystem()
 	this->points = 0;
 }
 
+void Game::checkerController()
+{
+	if (this->gameState == START && sf::Joystick::isButtonPressed(0,7)) {
+		this->gameState == PLAY;
+	}
+	else if (this->gameState == PLAY && sf::Joystick::isButtonPressed(0,7)) {
+		this->gameState == PAUSE;
+	}
+	else if (this->gameState == PAUSE && sf::Joystick::isButtonPressed(0,7)) {
+		this->gameState == PLAY;
+	}
+	else if (this->gameState == DEAD && sf::Joystick::isButtonPressed(0,7)) {
+		this->gameState == PLAY;
+	}
+}
+
 void Game::run()
 {
 	if (this->player->getHp() == 0) {
+		this->gameState = DEAD;
 		mainTheme.setLoop(false);
 		mainTheme.stop();
-		
+
+		deathTheme.setLoop(true);
+		deathTheme.play();
+		deathTheme.setVolume(100.f);
 		this->gameOver();
 	}
-	else {
+	else if (this->gameState == START) {
+		this->startMode();
+	}
+	else if (this->gameState == PLAY) {
 		this->update();
+	}
+	else if (this->gameState == PAUSE) {
+		mainTheme.setLoop(false);
+		mainTheme.stop();
+		this->pauseMode();
 	}
 	this->render();
 	
@@ -143,6 +191,7 @@ void Game::run()
 
 Game::Game()
 {
+	this->gameState = START;
 	this->initWindow();
 	this->initPlayer();
 	this->initGUI();
@@ -413,15 +462,31 @@ void Game::updateCombat()
 	}
 
 }
+
+void Game::pauseMode() {
+	while (this->window.pollEvent(this->ev))
+	{
+		if (this->ev.type == sf::Event::Closed) this->window.close();
+		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Enter) {
+			this->gameState = PLAY; mainTheme.setLoop(true);
+			mainTheme.play();
+		}
+
+	}
+
+}
+
 void Game::gameOver() {
 	int counter = 0;
 	while (this->window.pollEvent(this->ev)) {
 		std::cout << counter << std::endl;
-		if (counter < 10) GameOverSound.play();
-		deathTheme.play();
-		deathTheme.setVolume(100.f);
+		if (counter < 20) GameOverSound.play();
 		if (this->ev.type == sf::Event::Closed) this->window.close();
 		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape) this->window.close();
+		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Enter) {
+			this->player->setHp(100); this->coinAmm = 0; this->points = 0; deathTheme.setLoop(false); obstacles.clear(); coins.clear(); healths.clear(); enemies.clear();
+		deathTheme.stop(); mainTheme.setLoop(true); mainTheme.play();  this->gameState = PLAY;
+		}
 		counter+=1;
 	}
 }
@@ -431,9 +496,10 @@ void Game::update()
 	//polling windows events
 	while (this->window.pollEvent(this->ev))
 	{
-	
+
 		if (this->ev.type == sf::Event::Closed) this->window.close();
 		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Escape) this->window.close();
+		else if (this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::BackSpace) { this->gameState = PAUSE; }
 
 		if (this->ev.type == sf::Event::KeyReleased && 
 			   (this->ev.key.code == sf::Keyboard::A ||
@@ -471,6 +537,24 @@ void Game::update()
 
 void Game::updateWorld()
 {
+
+}
+
+
+void Game::startMode()
+{
+	this->window.draw(this->startmenuText);
+	while (this->window.pollEvent(this->ev))
+	{
+		this->checkerController();
+		if (this->ev.type == sf::Event::Closed) this->window.close();
+		else if ((this->ev.type == sf::Event::KeyPressed && this->ev.key.code == sf::Keyboard::Enter)) {
+			mainTheme.play();
+			mainTheme.setLoop(true);
+			this->gameState = PLAY;
+		}
+		
+	}
 
 }
 
@@ -532,11 +616,17 @@ void Game::render()
 		Health->render(this->window);
 	}
 
-	this->renderGUI();
+	if(this->gameState==PLAY) this->renderGUI();
 
 	//Game Over
 	if (this->player->getHp() <= 0) {
 		this->window.draw(this->gameOverText);
+	}
+	if (this->gameState == PAUSE) {
+		this->window.draw(this->PauseText);
+	}
+	if (this->gameState == START) {
+		this->window.draw(this->startmenuText);
 	}
 
 	this->window.display();

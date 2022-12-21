@@ -5,7 +5,7 @@ void Health::initVariables()
 	this->pointCount = 1; //minimum 0 max 10
 	this->type = 0;
 	this->speed = -5.f;
-	this->hp = 25;
+	this->hp = 35;
 	this->points = 1;
 }
 

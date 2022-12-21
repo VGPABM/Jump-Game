@@ -26,6 +26,7 @@ void Player::initSprite()
 
 	this->sprite.setTextureRect(this->currentFrame);
 	this->sprite.setScale(0.75f, 0.75f);
+	this->sprite.setPosition(0.f, 960.f);
 }
 
 void Player::initAnimation()
@@ -70,7 +71,7 @@ void Player::updateMovement()
 		this->movey(0.f, -1.f);
 		this->animState = PLAYER_ANIMATION_STATE::JUMPING;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 50) //crouch
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 50 || sf::Joystick::isButtonPressed(0, 2)) //crouch
 	{
 		this->fastfall = true;
 	}
