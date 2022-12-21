@@ -11,6 +11,7 @@ void Obstacle::initShape()
 	if (temp == 0) {
 		this->type = KNIFE;
 		this->damage = 10;
+		this->speed = -8.f;
 		this->shape.setTexture(knife);
 		this->shape.setScale(0.8f, 0.8f);
 		this->shape.setTextureRect(sf::IntRect(0, 80, 240, 80));
@@ -18,6 +19,7 @@ void Obstacle::initShape()
 	else if (temp == 1) {
 		this->type = LOGO;
 		this->damage = 20;
+		this->speed = -4.f;
 		this->german.setTexture(logo);
 		this->german.setScale(0.8f, 0.8f);
 		//this->german.setTextureRect(sf::IntRect(50, 50, 644, 325));
@@ -25,6 +27,7 @@ void Obstacle::initShape()
 	else if (temp == 2) {
 		this->type = FIREBALL;
 		this->damage = 15;
+		this->speed = -7.f;
 		this->circle.setTexture(fireball);
 		this->circle.setTextureRect(sf::IntRect(100, 10, 622, 325));
 		this->circle.setScale(0.4f, 0.4f);

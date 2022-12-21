@@ -252,7 +252,6 @@ void Game::updateGUI()
 	std::stringstream cc;
 	cc << "Coin Collected: " << this->coinAmm;
 	this->coinText.setString(cc.str());
-	
 
 	//Update Player GUI
 	float hpPercent;
@@ -264,8 +263,6 @@ void Game::updateGUI()
 	temp = hpPercent * 100; 
 	hh << temp;
 	this->hpBar.setString(hh.str());
-
-
 }
 
 void Game::updateObstacles()
@@ -414,6 +411,7 @@ void Game::updateCombat()
 			}
 		}
 	}
+
 }
 void Game::gameOver() {
 	int counter = 0;
@@ -448,15 +446,16 @@ void Game::update()
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->spawnBulletTimer >= this->spawnBulletMax) {
 			sf::Vector2f _tempmouse;
 			_tempmouse = sf::Vector2f(sf::Mouse::getPosition(window));
-			this->bullets.push_back(new Bullet(this->player->getPos().x, this->player->getPos().y, _tempmouse.x, _tempmouse.y, 10.f));
+			this->bullets.push_back(new Bullet(this->player->getPos().x, this->player->getPos().y, _tempmouse.x, _tempmouse.y, 13.f));
 			this->spawnBulletTimer = 0.f;
 			this->Ora.play();
 		}else if ((sf::Joystick::isButtonPressed(0, 4) || sf::Joystick::isButtonPressed(0, 5) || sf::Joystick::isButtonPressed(0, 1)) && this->spawnBulletTimer >= this->spawnBulletMax) {
-			this->bullets.push_back(new Bullet(this->player->getPos().x, this->player->getPos().y, this->player->getPos().x + 5, this->player->getPos().y, 10.f));
+			this->bullets.push_back(new Bullet(this->player->getPos().x, this->player->getPos().y, this->player->getPos().x + 5, this->player->getPos().y, 13.f));
 			this->spawnBulletTimer = 0.f;
 			this->Ora.play();
 		}
 	}
+
 	//this->updateInput();
 	this->updatePlayer();
 	this->updateBullets();

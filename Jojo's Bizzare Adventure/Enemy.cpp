@@ -18,7 +18,7 @@ void Enemy::initVariables()
 	this->movetype = UNSIGNED;
 	this->angle = 0;
 	this->type = 0;
-	this->speed = -5.f;
+	this->speed = -3.f;
 	this->hp = static_cast<float>(this->pointCount);;
 	this->hpMax = this->hpMax;
 	this->damage = 25;
