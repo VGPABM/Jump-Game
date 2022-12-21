@@ -9,16 +9,22 @@ void Obstacle::initShape()
 	temp = rand() % 3;
 	std::cout << temp << std::endl;
 	if (temp == 0) {
+		this->type = KNIFE;
+		this->damage = 10;
 		this->shape.setTexture(knife);
 		this->shape.setScale(0.8f, 0.8f);
 		this->shape.setTextureRect(sf::IntRect(0, 80, 240, 80));
 	}
 	else if (temp == 1) {
+		this->type = LOGO;
+		this->damage = 20;
 		this->german.setTexture(logo);
 		this->german.setScale(0.8f, 0.8f);
 		//this->german.setTextureRect(sf::IntRect(50, 50, 644, 325));
 	}
 	else if (temp == 2) {
+		this->type = FIREBALL;
+		this->damage = 15;
 		this->circle.setTexture(fireball);
 		this->circle.setTextureRect(sf::IntRect(100, 10, 622, 325));
 		this->circle.setScale(0.4f, 0.4f);
@@ -31,7 +37,6 @@ void Obstacle::initShape()
 
 void Obstacle::initVariables()
 {
-	this->type = 0;
 	this->speed = -5.f;
 	this->hp = 10;
 	this->hpMax = 0;
@@ -48,8 +53,8 @@ void Obstacle::initTexture()
 
 Obstacle::Obstacle(float pos_x, float pos_y)
 {
-	this->initShape();
 	this->initVariables();
+	this->initShape();
 	this->shape.setPosition(pos_x, pos_y);
 	this->circle.setPosition(pos_x, pos_y);
 	this->german.setPosition(pos_x, pos_y);

@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "Ellipse.h"
 
+enum type{KNIFE=0,FIREBALL,LOGO};
+
 class Obstacle
 {
 private:
@@ -10,9 +12,9 @@ private:
 	sf::Sprite circle;
     EllipseShape ellips;
 	sf::Texture knife;
+	short type;
 	sf::Texture logo;
 	sf::Texture fireball;
-	int type;
 	float speed;
 	int hp;
 	int hpMax;

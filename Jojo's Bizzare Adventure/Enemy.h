@@ -1,6 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
+enum MOVE{UNSIGNED = 0, NORMAL,SIN,COS};
+
 class Enemy
 {
 private:
@@ -9,7 +11,9 @@ private:
 	sf::Texture texture;
 	sf::SoundBuffer buffer;
 	sf::Sound roadroller;
+	short movetype;
 	int type;
+	int angle;
 	float speed;
 	int hp;
 	int hpMax;

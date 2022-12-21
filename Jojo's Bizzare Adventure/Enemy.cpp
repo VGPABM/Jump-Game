@@ -15,11 +15,13 @@ void Enemy::initSound()
 void Enemy::initVariables()
 {
 	this->pointCount = 1; //minimum 0 max 10
+	this->movetype = UNSIGNED;
+	this->angle = 0;
 	this->type = 0;
 	this->speed = -5.f;
 	this->hp = static_cast<float>(this->pointCount);;
 	this->hpMax = this->hpMax;
-	this->damage = 20;
+	this->damage = 25;
 	this->points = this->pointCount;
 }
 
@@ -31,6 +33,7 @@ void Enemy::initShape()
 	this->circle.setTextureRect(sf::IntRect(50, 50, 644, 325));
 }
 
+
 Enemy::Enemy(float pos_x, float pos_y)
 {
 	this->initVariables();
@@ -39,6 +42,7 @@ Enemy::Enemy(float pos_x, float pos_y)
 	this->circle.setPosition(pos_x, pos_y);
 	roadroller.play();
 }
+
 
 Enemy::~Enemy()
 {
@@ -64,9 +68,11 @@ void Enemy::stopMusic()
 	this->roadroller.stop();
 }
 
+
 void Enemy::update()
 {
 	this->circle.move(this->speed, 0.f);
+	
 }
 
 void Enemy::render(sf::RenderTarget& target)
