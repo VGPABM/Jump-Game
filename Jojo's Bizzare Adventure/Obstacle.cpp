@@ -1,6 +1,28 @@
 #include "Obstacle.h"
 
+float randomFloat()
+{
+	return (float)(rand()) / (float)(RAND_MAX);
+}
 
+int randomInt(int a, int b)
+{
+	if (a > b)
+		return randomInt(b, a);
+	if (a == b)
+		return a;
+	return a + (rand() % (b - a));
+}
+
+float randomFloat(int a, int b)
+{
+	if (a > b)
+		return randomFloat(b, a);
+	if (a == b)
+		return a;
+
+	return (float)randomInt(a, b) + randomFloat();
+}
 
 void Obstacle::initShape()
 {
@@ -17,11 +39,14 @@ void Obstacle::initShape()
 		this->shape.setTextureRect(sf::IntRect(0, 80, 240, 80));
 	}
 	else if (temp == 1) {
+		float a, b;
+		a = randomFloat(0.2, 0.6);
+		b = randomFloat(0.2, 0.6);
 		this->type = LOGO;
 		this->damage = 20;
 		this->speed = -4.f;
 		this->german.setTexture(logo);
-		this->german.setScale(0.8f, 0.8f);
+		this->german.setScale(0.4f, 0.4f);
 		//this->german.setTextureRect(sf::IntRect(50, 50, 644, 325));
 	}
 	else if (temp == 2) {
